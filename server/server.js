@@ -12,13 +12,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
 app.get('/', async (req, res) => {
   res.status(200).send({
-    message: 'Hello from chatGPT',
+    message: 'Hello from chatGPT!',
   });
 });
 
@@ -27,7 +26,7 @@ app.post('/', async (req, res) => {
     const prompt = req.body.prompt;
 
     const response = await openai.createCompletion({
-      model: 'text-davinci-003',
+      model: "text-davinci-003",
       prompt: `${prompt}`,
       temperature: 0,
       max_tokens: 3000,
@@ -37,11 +36,11 @@ app.post('/', async (req, res) => {
     });
 
     res.status(200).send({
-      bot: response.data.choices[0].text,
+      bot: response.data.choices[0].text
     });
   } catch (error) {
-    console.log(err);
-    res.status(500).send({ error });
+    console.error(error)
+    res.status(500).send(error || 'Something went wrong');
   }
 });
 
